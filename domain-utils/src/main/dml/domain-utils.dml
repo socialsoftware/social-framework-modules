@@ -1,0 +1,15 @@
+package pt.ist.util;
+
+enum pt.ist.util.i18n.Language as Language;
+
+valueType pt.ist.util.i18n.MultiLanguageString as MultiLanguageString {
+    externalizeWith {
+        String exportAsString();
+    }
+    internalizeWith fromString();
+}
+
+class time.EffectivePeriod {
+  DateTime startTimestamp;
+  DateTime endTimestamp;
+}

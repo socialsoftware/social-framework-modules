@@ -1,0 +1,67 @@
+package pt.ist.social;
+
+valueType pt.ist.social.ParticipationRole as ParticipationRole {
+    externalizeWith {
+        String toString();
+    }
+}
+
+class Interaction;
+
+class Discussion {
+    String subject;
+}
+
+class Message {
+    String text (REQUIRED);
+    DateTime timestamp (REQUIRED);
+}
+
+class ParticipationRolePlay {
+    ParticipationRole role (REQUIRED);
+}
+
+relation InteractionMayHaveSubInteractions {
+    Interaction playsRole contextInteraction { multiplicity 0..1; }
+    Interaction playsRole subInteraction { multiplicity 0..*; }
+}
+
+relation InteractionsHaveParticipationRolePlays {
+    Interaction playsRole interaction { multiplicity 1..1; }
+    ParticipationRolePlay playsRole participationRolePlay { multiplicity 0..*; }
+}
+
+relation ParticipationRolePlaysArePlayedByUsers {
+    ParticipationRolePlay playsRole participationRolePlay { multiplicity 0..*; }
+    .pt.ist.authentication.User playsRole participant { multiplicity 1..1; }
+}
+
+relation ParticipationRolePlaysAreEffectiveOnPeriod {
+    ParticipationRolePlay playsRole { multiplicity 0..1; }
+    .pt.ist.util.time.EffectivePeriod playsRole effectivePeriod { multiplicity 1..1; }
+}
+
+relation InteractionHasInformationVersions {
+    Interaction playsRole interaction { multiplicity 1..1; }
+    .pt.ist.data.DataObject playsRole dataObject { multiplicity 0..*; }
+}
+
+relation InteractionHasDiscussions {
+    Interaction playsRole interaction { multiplicity 1..1; }
+    Discussion playsRole discussion { multiplicity 0..*; }
+}
+
+relation DiscussionHasMessages {
+    Discussion playsRole discussion { multiplicity 1..1; }
+    Message playsRole message { multiplicity 0..*; }
+}
+
+relation DiscussionHasInitiator {
+    Discussion playsRole createdDiscussion { multiplicity 0..*; }
+    .pt.ist.authentication.User playsRole creator { multiplicity 1..1; }
+}
+
+relation MessageHasAuthor {
+    Message playsRole authoredMessage { multiplicity 0..*; }
+    .pt.ist.authentication.User playsRole author { multiplicity 1..1; }
+}

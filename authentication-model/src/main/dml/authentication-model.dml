@@ -1,0 +1,17 @@
+package pt.ist.authentication;
+
+class User {
+  String email;
+}
+
+class CredentialInfo;
+
+class PasswordCredentialInfo extends CredentialInfo {
+  String passwordHash;
+  String salt;
+}
+
+relation UserHasCredentialInfo {
+  User playsRole user { multiplicity 1..1; }
+  CredentialInfo playsRole credentialInfo { multiplicity 1..1; }
+}

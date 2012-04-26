@@ -1,0 +1,76 @@
+package pt.ist.organization;
+
+class Party;
+
+class Person extends Party {
+    Language defaultLanguage;
+    String name;
+}
+
+class OrganizationalUnit extends Party {
+    MultiLanguageString designation;
+}
+
+class AccountabilityType {
+    MultiLanguageString designation;
+}
+
+class Accountability;
+
+class Role {
+    MultiLanguageString designation;
+}
+
+class RolePlay;
+
+class Delegation;
+
+relation AccountabilityHasAccountabilityType {
+    AccountabilityType playsRole type { multiplicity 1..1; }
+    Accountability playsRole accountability { multiplicity 0..*; }
+}
+
+relation RolesArePlayed {
+    Role playsRole role { multiplicity 1..1; }
+    RolePlay playsRole rolePlay { multiplicity 0..*; }
+}
+
+relation AccountabilityHasRolePlays {
+    Accountability playsRole accountability { multiplicity 1..1; }
+    RolePlay playsRole rolePlay { multiplicity 0..*; }
+}
+
+relation AccountabilityHasEffectivePeriod {
+    Accountability playsRole { multiplicity 0..1; }
+    .pt.ist.util.time.EffectivePeriod playsRole effectivePeriod { multiplicity 1..1; }
+}
+
+relation RolePlayHasEffectivePeriod {
+    RolePlay playsRole { multiplicity 0..1; }
+    .pt.ist.util.time.EffectivePeriod playsRole effectivePeriod { multiplicity 0..1; }
+}
+
+relation PartyPlaysRole {
+    Party playsRole party { multiplicity 1..1; }
+    RolePlay playsRole rolePlay { multiplicity 0..*; }
+}
+
+relation DelegationHasSourcePerson {
+    Person playsRole sourcePerson { multiplicity 1..1; }
+    Delegation playsRole createdDelegation { multiplicity 0..*; }
+}
+
+relation DelegationHasTargetPersons {
+    Delegation playsRole targetDelegation { multiplicity 0..*; }
+    Person playsRole targetPerson { multiplicity 1..*; }
+}
+
+relation RolesPlaysAreDelegated {
+    Delegation playsRole delegation { multiplicity 0..*; }
+    .pt.ist.organization.RolePlay playsRole rolePlay { multiplicity 1..*; }
+}
+
+relation DelegationHasEffectivePeriod {
+    Delegation playsRole { multiplicity 0..1; }
+    .pt.ist.util.time.EffectivePeriod playsRole effectivePeriod { multiplicity 1..1; }
+}
