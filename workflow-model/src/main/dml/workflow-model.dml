@@ -1,0 +1,23 @@
+package pt.ist.workflow;
+
+class Process {
+  String title;
+}
+
+class Request extends .pt.ist.social.Interaction {
+    String subject;
+}
+
+class Queue {
+    String title;
+}
+
+relation ProcessHasRequests {
+  Process playsRole process { multiplicity 1..1; }
+  Request playsRole request { multiplicity 0..*; }
+}
+
+relation RequestsArePublishedOnQueues {
+    Request playsRole request { multiplicity 0..*; }
+    Queue playsRole queue { multiplicity 0..*; }
+}

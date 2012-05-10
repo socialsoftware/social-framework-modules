@@ -22,6 +22,7 @@
     <module>authentication-model</module>
     <module>data-model</module>
     <module>social-model</module>
+    <module>workflow-model</module>
   </modules>
 
 </project>

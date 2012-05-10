@@ -5,8 +5,8 @@
   <groupId>pt.ist</groupId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <artifactId>authentication-model</artifactId>
-  <name>Authentication Model</name>
+  <artifactId>workflow-model</artifactId>
+  <name>Workflow Model</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -53,6 +53,16 @@
     <dependency>
       <groupId>pt.ist</groupId>
       <artifactId>fenix-framework-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>pt.ist</groupId>
+      <artifactId>social-model</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>pt.ist</groupId>
+      <artifactId>organization-model</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>

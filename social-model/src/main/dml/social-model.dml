@@ -21,6 +21,10 @@ class ParticipationRolePlay {
     ParticipationRole role (REQUIRED);
 }
 
+class Tag {
+    String label;
+}
+
 relation InteractionMayHaveSubInteractions {
     Interaction playsRole contextInteraction { multiplicity 0..1; }
     Interaction playsRole subInteraction { multiplicity 0..*; }
