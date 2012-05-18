@@ -2,6 +2,9 @@ package pt.ist.social;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.joda.time.DateTime;
+
 import pt.ist.authentication.User;
 
 public class Interaction extends Interaction_Base {
@@ -9,7 +12,7 @@ public class Interaction extends Interaction_Base {
     public void init(User creator, boolean creatorIsParticipant) {
         addParticipant(ParticipationRole.CREATOR, creator);
         if(creatorIsParticipant) {
-            addParticipant(ParticipationRole.PARTICIPANT, creator);
+            addParticipant(ParticipationRole.PARTICIPANT, creator);	
         }
     }
 
@@ -45,5 +48,11 @@ public class Interaction extends Interaction_Base {
         }
         return participantSet;
     }
+    
+	public void createDiscussion(User creator, String subject) {
+		Discussion discussion =  new Discussion();
+		discussion.init(subject, creator);
+		addDiscussion(discussion);
+	}
 
 }

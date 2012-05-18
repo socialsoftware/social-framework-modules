@@ -8,11 +8,12 @@ valueType pt.ist.data.DataObjectType as DataObjectType {
     }
 }
 
-class DataObject;
+class DataObject{
+	String label (REQUIRED);
+}
 
 class DataObjectVersion {
     DataObjectType type (REQUIRED);
-    String label (REQUIRED);
     String externalizedValue (REQUIRED);
 }
 

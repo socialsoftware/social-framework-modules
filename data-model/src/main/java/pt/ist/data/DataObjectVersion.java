@@ -5,11 +5,27 @@ import pt.ist.util.time.EffectivePeriod;
 
 public class DataObjectVersion extends DataObjectVersion_Base {
 
-    public void init(DataObjectType type, String label, String externalizedValue, User author) {
+    public void init(DataObjectType type, String externalizedValue, User author) {
         setType(type);
-        setLabel(label);
         setExternalizedValue(externalizedValue);
         setAuthor(author);
-        setEffectivePeriod(new EffectivePeriod());
+        EffectivePeriod effectivePeriod = new EffectivePeriod();
+        effectivePeriod.init();
+        setEffectivePeriod(effectivePeriod);
+    }
+    
+    public void init(User author) {
+        setAuthor(author);
+        EffectivePeriod effectivePeriod = new EffectivePeriod();
+        effectivePeriod.init();
+        setEffectivePeriod(effectivePeriod);
+    }
+    
+    public DataObjectVersion fork(DataObjectVersion forkedDataObjectVersion,User author){
+    	if(forkedDataObjectVersion == null){
+    		forkedDataObjectVersion =  new DataObjectVersion();
+    	}
+    	forkedDataObjectVersion.init(author);
+    	return forkedDataObjectVersion;
     }
 }

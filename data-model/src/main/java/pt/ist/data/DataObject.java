@@ -6,16 +6,32 @@ import pt.ist.authentication.User;
 
 public class DataObject extends DataObject_Base {
 
+	public void init (String label, DataObjectVersion firstVersion){
+        setLabel(label);
+        addVersion(firstVersion);
+	}
+	
     public void init(DataObjectType type, String label, String externalizedValue, User author) {
         DataObjectVersion firstVersion = new DataObjectVersion();
-        firstVersion.init(type, label, externalizedValue, author);
+        setLabel(label);
+        firstVersion.init(type, externalizedValue, author);
         addVersion(firstVersion);
-    }
+    } 	
 
+    public DataObject fork(User author, SynchronizationPolicy sourcePolicy, SynchronizationPolicy targetPolicy, DataObjectVersion dataObjectVersionToFork) {
+        DataObjectVersion forkedDataObjectVersion = null;
+        forkedDataObjectVersion = getLastVersion().fork(null, author);
+        DataObject forkedDataObject = new DataObject();
+        forkedDataObject.init(this.getLabel(), forkedDataObjectVersion);
+        SynchronizationConfiguration synchronizationConfiguration = new SynchronizationConfiguration();
+        synchronizationConfiguration.init(author, this, forkedDataObject, sourcePolicy, targetPolicy);
+        return forkedDataObject;
+    }
+    
     public DataObject fork(User author, SynchronizationPolicy sourcePolicy, SynchronizationPolicy targetPolicy) {
         DataObjectVersion lastVersion = getLastVersion();
         DataObject forkedDataObject = new DataObject();
-        forkedDataObject.init(lastVersion.getType(), lastVersion.getLabel(), lastVersion.getExternalizedValue(), author);
+        forkedDataObject.init(lastVersion.getType(), this.getLabel(), lastVersion.getExternalizedValue(), author);
         SynchronizationConfiguration synchronizationConfiguration = new SynchronizationConfiguration();
         synchronizationConfiguration.init(author, this, forkedDataObject, sourcePolicy, targetPolicy);
         return forkedDataObject;
@@ -23,7 +39,7 @@ public class DataObject extends DataObject_Base {
 
     public void createNewVersionByMergingWith(User author, DataObjectVersion dataObjectVersion) {
         DataObjectVersion newVersion = new DataObjectVersion();
-        newVersion.init(dataObjectVersion.getType(), dataObjectVersion.getLabel(), dataObjectVersion.getExternalizedValue(), author);
+        newVersion.init(dataObjectVersion.getType(), dataObjectVersion.getExternalizedValue(), author);
         newVersion.setSourceMergeVersion(dataObjectVersion);
         addVersion(newVersion);
     }
@@ -31,7 +47,7 @@ public class DataObject extends DataObject_Base {
     public void setExternalizedValue(String externalizedValue, User author) {
         DataObjectVersion lastVersion = getLastVersion();
         DataObjectVersion newVersion = new DataObjectVersion();
-        newVersion.init(lastVersion.getType(), lastVersion.getLabel(), externalizedValue, author);
+        newVersion.init(lastVersion.getType(), externalizedValue, author);
         addVersion(newVersion);
         DataObjectVersion currentVersion = newVersion;
         while(currentVersion != null) {

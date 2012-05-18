@@ -6,10 +6,13 @@ valueType pt.ist.social.ParticipationRole as ParticipationRole {
     }
 }
 
-class Interaction;
+class Interaction {
+	DateTime timestamp (REQUIRED);
+}
 
 class Discussion {
     String subject;
+    DateTime timestamp (REQUIRED);
 }
 
 class Message {
