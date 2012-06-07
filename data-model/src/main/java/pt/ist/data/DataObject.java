@@ -3,19 +3,23 @@ package pt.ist.data;
 import java.util.HashSet;
 import java.util.Set;
 import pt.ist.authentication.User;
+import pt.ist.util.time.EffectivePeriod;
 
 public class DataObject extends DataObject_Base {
 
 	public void init (String label, DataObjectVersion firstVersion){
         setLabel(label);
+        EffectivePeriod effectivePeriod =  new EffectivePeriod();
+        effectivePeriod.init();
+        setEffectivePeriod(effectivePeriod);
         addVersion(firstVersion);
+        
 	}
 	
     public void init(DataObjectType type, String label, String externalizedValue, User author) {
         DataObjectVersion firstVersion = new DataObjectVersion();
-        setLabel(label);
         firstVersion.init(type, externalizedValue, author);
-        addVersion(firstVersion);
+        init(label, firstVersion);
     } 	
 
     public DataObject fork(User author, SynchronizationPolicy sourcePolicy, SynchronizationPolicy targetPolicy, DataObjectVersion dataObjectVersionToFork) {

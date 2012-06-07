@@ -23,10 +23,10 @@ public class User extends User_Base {
 	  else{
 		  InternetAddress emailAddress =  null;
 		  try {
-			  
 			  emailAddress =  new InternetAddress(email);
 			  emailAddress.validate();
-			  } catch (AddressException e) {
+			  } 
+		  catch (AddressException e) {
 				  throw new NotValidEmailException("The email is not valid");
 			}
 		  PasswordCredentialInfo credentialInfo = new PasswordCredentialInfo();

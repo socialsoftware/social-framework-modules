@@ -13,9 +13,11 @@ class DataObject{
 }
 
 class DataObjectVersion {
-    DataObjectType type (REQUIRED);
-    String externalizedValue (REQUIRED);
+    DataObjectType type;
+    String externalizedValue;
 }
+
+class Relation;
 
 class SynchronizationConfiguration {
     SynchronizationPolicy sourcePolicy;
@@ -24,7 +26,7 @@ class SynchronizationConfiguration {
 
 relation DataObjectHasVersions {
     DataObject playsRole dataObject { multiplicity 1..1; }
-    DataObjectVersion playsRole version { multiplicity 1..*; }
+    DataObjectVersion playsRole version { multiplicity 0..*; }
 }
 
 relation DataObjectHasLastVersion {
@@ -69,5 +71,20 @@ relation DataObjectHasEffectivePeriod {
 
 relation DataObjectVersionHasEffectivePeriod {
     DataObjectVersion playsRole { multiplicity 0..1; }
+    .pt.ist.util.time.EffectivePeriod playsRole effectivePeriod { multiplicity 1..1; }
+}
+
+relation RelationsHasSourceDataObject {
+	DataObject playsRole sourceDataObejct { multiplicity 0..1; }
+	Relation playsRole sourceRelation { multiplicity 0..*; }
+}
+
+relation RelationHasTargetDataObject {
+	DataObject playsRole targetDataObject { multiplicity 0..*; }
+	Relation playsRole targetRelation { multiplicity 0..*; }
+}
+
+relation RelationHasEffectivePeriod {
+	Relation playsRole { multiplicity 0..1; }
     .pt.ist.util.time.EffectivePeriod playsRole effectivePeriod { multiplicity 1..1; }
 }

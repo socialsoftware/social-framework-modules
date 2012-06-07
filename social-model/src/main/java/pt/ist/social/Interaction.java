@@ -3,8 +3,6 @@ package pt.ist.social;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.joda.time.DateTime;
-
 import pt.ist.authentication.User;
 
 public class Interaction extends Interaction_Base {

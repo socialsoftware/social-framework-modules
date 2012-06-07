@@ -7,6 +7,9 @@ import java.security.SecureRandom;
 
 import org.apache.commons.codec.binary.Hex;
 
+import pt.ist.exception.WrongPasswordException;
+import pt.ist.exception.WrongUsernameException;
+
 public class PasswordCredentialInfo extends PasswordCredentialInfo_Base {
 
 	private static final String RNG_ALGORITHM = "SHA1PRNG";
@@ -43,5 +46,20 @@ public class PasswordCredentialInfo extends PasswordCredentialInfo_Base {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public Boolean authenticate(String username, String password) throws WrongPasswordException, WrongUsernameException{
+		String passwordHash =  encryption(password + getSalt());
+		if(getUser().getUsername().equals(username)){
+			if(getPasswordHash().equals(passwordHash)){
+				return true;
+			}
+			else{
+				throw new WrongPasswordException("Wrong password");
+			}
+		}
+		else{
+			throw new WrongUsernameException("Wrong username");
+		}
 	}
 }

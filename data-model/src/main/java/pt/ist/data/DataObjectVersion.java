@@ -8,10 +8,7 @@ public class DataObjectVersion extends DataObjectVersion_Base {
     public void init(DataObjectType type, String externalizedValue, User author) {
         setType(type);
         setExternalizedValue(externalizedValue);
-        setAuthor(author);
-        EffectivePeriod effectivePeriod = new EffectivePeriod();
-        effectivePeriod.init();
-        setEffectivePeriod(effectivePeriod);
+        init(author);
     }
     
     public void init(User author) {
