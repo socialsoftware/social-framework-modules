@@ -17,6 +17,12 @@ class DataObjectVersion {
     String externalizedValue;
 }
 
+class DataObjectAttribute {
+	String label (REQUIRED);
+	DataObjectType type;
+    String externalizedValue;
+}
+
 class Relation;
 
 class SynchronizationConfiguration {
@@ -42,6 +48,11 @@ relation DataObjectVersionMayHavePreviousAndNextVersions {
 relation DataObjectVersionHasAuthor {
     DataObjectVersion playsRole authoredDataObjectVersion { multiplicity 0..*; }
     .pt.ist.authentication.User playsRole author { multiplicity 1..1; }
+}
+
+relation DataObjectVersionHasDataObjectAttribute {
+	DataObjectVersion playsRole dataObjectVersion { multiplicity 1..1; }
+	DataObjectAttribute playsRole attribute { multiplicity 0..*;}
 }
 
 relation SynchronizationConfigurationHasSourceDataObject {

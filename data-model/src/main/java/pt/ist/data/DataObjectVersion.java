@@ -23,6 +23,17 @@ public class DataObjectVersion extends DataObjectVersion_Base {
     		forkedDataObjectVersion =  new DataObjectVersion();
     	}
     	forkedDataObjectVersion.init(author);
+    	for(DataObjectAttribute attribute : getAttribute()){
+    		DataObjectAttribute newAttribute = new DataObjectAttribute();
+    		newAttribute.init(attribute.getLabel(), attribute.getType(), attribute.getExternalizedValue());
+    		forkedDataObjectVersion.addAttribute(newAttribute);
+    	}
     	return forkedDataObjectVersion;
+    }
+    
+    public DataObjectVersion newVersionOf(User author){
+    	DataObjectVersion newVersion = new DataObjectVersion();
+        newVersion.init(this.getType(), this.getExternalizedValue(), author);
+        return newVersion;
     }
 }

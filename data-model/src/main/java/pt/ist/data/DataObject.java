@@ -42,8 +42,9 @@ public class DataObject extends DataObject_Base {
     }
 
     public void createNewVersionByMergingWith(User author, DataObjectVersion dataObjectVersion) {
-        DataObjectVersion newVersion = new DataObjectVersion();
-        newVersion.init(dataObjectVersion.getType(), dataObjectVersion.getExternalizedValue(), author);
+//        DataObjectVersion newVersion = new DataObjectVersion();
+//        newVersion.init(dataObjectVersion.getType(), dataObjectVersion.getExternalizedValue(), author);
+    	DataObjectVersion newVersion = dataObjectVersion.newVersionOf(author);
         newVersion.setSourceMergeVersion(dataObjectVersion);
         addVersion(newVersion);
     }
@@ -64,7 +65,21 @@ public class DataObject extends DataObject_Base {
             currentVersion = currentVersion.getPreviousVersion();
         }
     }
-
+ 
+    public void setNewDataObjectVersion(DataObjectVersion newVersion, User author) {
+        addVersion(newVersion);
+        DataObjectVersion currentVersion = newVersion;
+        while(currentVersion != null) {
+            if(currentVersion.getDataObject().hasAnySourceSynchronizationConfiguration()) {
+                handleSourceSynchronizationConfigurations(currentVersion.getDataObject().getSourceSynchronizationConfigurationSet());
+            }
+            if(currentVersion.getDataObject().hasAnyTargetSynchronizationConfiguration()) {
+                handleTargetSynchronizationConfigurations(currentVersion.getDataObject().getTargetSynchronizationConfigurationSet());
+            }
+            currentVersion = currentVersion.getPreviousVersion();
+        }
+    }
+    
     private void handleSourceSynchronizationConfigurations(Set<SynchronizationConfiguration> sourceConfigurationSet) {
         for(SynchronizationConfiguration sourceConfig : sourceConfigurationSet) {
             if(sourceConfig.getSourcePolicy().equals(SynchronizationPolicy.AUTO)) {
@@ -109,7 +124,6 @@ public class DataObject extends DataObject_Base {
             }
             currentVersion = currentVersion.getPreviousVersion();
         }
-
         return mergeRequestSet;
     }
 }
