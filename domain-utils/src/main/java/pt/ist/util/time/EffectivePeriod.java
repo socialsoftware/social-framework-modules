@@ -30,4 +30,12 @@ public class EffectivePeriod extends EffectivePeriod_Base {
     }
   }
     
+  public boolean isTerminated(){
+	  if(getEndTimestamp() == null){
+		  return false;
+	  }
+	  else{
+		  return true;
+	  }
+  }
 }

@@ -1,5 +1,6 @@
 package pt.ist.data;
 
+import java.util.HashMap;
 import pt.ist.authentication.User;
 import pt.ist.util.time.EffectivePeriod;
 
@@ -35,5 +36,16 @@ public class DataObjectVersion extends DataObjectVersion_Base {
     	DataObjectVersion newVersion = new DataObjectVersion();
         newVersion.init(this.getType(), this.getExternalizedValue(), author);
         return newVersion;
+    }
+    
+    public HashMap<String, Object> getAllValues(){
+    	HashMap<String, Object> values = new HashMap<String, Object>();
+   		values.put("Externalized Value",getExternalizedValue());
+   		values.put("OID", getDataObject().getOID());
+    	
+    	for(DataObjectAttribute attribute : getAttribute()){
+    		values.put(attribute.getLabel(), attribute.getExternalizedValue());
+    	}
+		return values;
     }
 }

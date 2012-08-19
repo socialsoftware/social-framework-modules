@@ -47,6 +47,15 @@ public class Interaction extends Interaction_Base {
         return participantSet;
     }
     
+    public ParticipationRole getParticipationRoleOftheUser(User user){
+    	for(ParticipationRolePlay participantionRolePlay : getParticipationRolePlay()){
+			if(participantionRolePlay.getParticipant().getOID() == user.getOID()){
+				return participantionRolePlay.getRole();
+			}
+		}
+		return null;
+    }
+    
 	public void createDiscussion(User creator, String subject) {
 		Discussion discussion =  new Discussion();
 		discussion.init(subject, creator);
