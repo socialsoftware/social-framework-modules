@@ -24,7 +24,7 @@ public class DataObject extends DataObject_Base {
 
     public DataObject fork(User author, SynchronizationPolicy sourcePolicy, SynchronizationPolicy targetPolicy, DataObjectVersion dataObjectVersionToFork) {
         DataObjectVersion forkedDataObjectVersion = null;
-        forkedDataObjectVersion = getLastVersion().fork(null, author);
+        forkedDataObjectVersion = dataObjectVersionToFork.fork(null, author);
         DataObject forkedDataObject = new DataObject();
         forkedDataObject.init(this.getLabel(), forkedDataObjectVersion);
         SynchronizationConfiguration synchronizationConfiguration = new SynchronizationConfiguration();
@@ -69,7 +69,7 @@ public class DataObject extends DataObject_Base {
     public void setNewDataObjectVersion(DataObjectVersion newVersion, User author) {
         addVersion(newVersion);
         DataObjectVersion currentVersion = newVersion;
-        while(currentVersion != null) {
+        while( currentVersion != null) {
             if(currentVersion.getDataObject().hasAnySourceSynchronizationConfiguration()) {
                 handleSourceSynchronizationConfigurations(currentVersion.getDataObject().getSourceSynchronizationConfigurationSet());
             }

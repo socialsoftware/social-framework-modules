@@ -37,4 +37,35 @@ public class User extends User_Base {
 		  setCredentialInfo(credentialInfo);
 	  }
   }
+  
+  public void updateUserInfo(String username, String email, String password) throws MissingUsernameException, MissingEmailException, NotValidEmailException {
+	  if(username == null || username.equals("")){
+			throw new MissingUsernameException("The user name is missing");
+	  }
+	  else if(email == null || email.equals("")) {
+			throw new MissingEmailException("The email is missing");
+	  }
+	  else{
+		  if(password == null || password.equals("")){
+			  setUsername(username);
+			  setEmail(email);
+		  }
+		  else{
+			  InternetAddress emailAddress =  null;
+			  try {
+				  emailAddress =  new InternetAddress(email);
+				  emailAddress.validate();
+				  } 
+			  catch (AddressException e) {
+					  throw new NotValidEmailException("The email is not valid");
+				}
+			  PasswordCredentialInfo credentialInfo = (PasswordCredentialInfo) this.getCredentialInfo();
+			  String salt = credentialInfo.saltGeneretor();
+			  credentialInfo.setPasswordHash(credentialInfo.encryption(password + salt ));
+			  credentialInfo.setSalt(salt);
+			  setUsername(username);
+			  setEmail(email);
+		  }
+	  }
+  }
 }
